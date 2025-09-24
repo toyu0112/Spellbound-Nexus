@@ -14,7 +14,6 @@ public class SNItems {
     public static final RegistryObject<Item> COMET_FRAGMENT = ITEMS.register("comet_fragment",
             () -> new Item(new Item.Properties()));
 
-    public static void register(IEventBus eventBus) {
-        ITEMS.register(eventBus);
-    }
+    public static void register(IEventBus eventBus) { ITEMS.register(eventBus); }
+
 }
