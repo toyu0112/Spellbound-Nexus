@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "dev.toyu0112.stellar_nemesis.mixin",
+  "package": "dev.toyu0112.spellbound_nexus.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "stellar_nemesis.refmap.json",
   "mixins": [

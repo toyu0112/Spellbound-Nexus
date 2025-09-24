@@ -1,7 +1,9 @@
-package dev.toyu0112.stellar_nemesis.entity.asterion;
+package dev.toyu0112.spellbound_nexus.client.render.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.toyu0112.stellar_nemesis.StellarNemesis;
+import dev.toyu0112.spellbound_nexus.SpellboundNexus;
+import dev.toyu0112.spellbound_nexus.client.model.entity.AsterionMeteorProjectileModel;
+import dev.toyu0112.spellbound_nexus.entity.projectile.AsterionMeteorProjectile;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -14,7 +16,7 @@ public class AsterionMeteorProjectileRenderer extends EntityRenderer<AsterionMet
     private final AsterionMeteorProjectileModel<AsterionMeteorProjectile> model;
 
     public static final ModelLayerLocation LAYER =
-            new ModelLayerLocation(new ResourceLocation(StellarNemesis.MOD_ID, "asterion_meteor_projectile"), "main");
+            new ModelLayerLocation(new ResourceLocation(SpellboundNexus.MOD_ID, "asterion_meteor_projectile"), "main");
 
     public AsterionMeteorProjectileRenderer(EntityRendererProvider.Context pContext) {
         super(pContext);
@@ -32,6 +34,6 @@ public class AsterionMeteorProjectileRenderer extends EntityRenderer<AsterionMet
 
     @Override
     public ResourceLocation getTextureLocation(AsterionMeteorProjectile pEntity) {
-        return new ResourceLocation(StellarNemesis.MOD_ID, "textures/entity/asterion_meteor_projectile.png");
+        return new ResourceLocation(SpellboundNexus.MOD_ID, "textures/entity/asterion_meteor_projectile.png");
     }
 }

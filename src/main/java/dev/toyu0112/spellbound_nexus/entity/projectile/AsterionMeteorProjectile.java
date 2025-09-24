@@ -1,6 +1,8 @@
-package dev.toyu0112.stellar_nemesis.entity.asterion;
+package dev.toyu0112.spellbound_nexus.entity.projectile;
 
-import dev.toyu0112.stellar_nemesis.entity.SNEntities;
+import dev.toyu0112.spellbound_nexus.init.ModAttributes;
+import dev.toyu0112.spellbound_nexus.init.ModEntities;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -14,13 +16,23 @@ public class AsterionMeteorProjectile extends ThrowableProjectile {
     }
 
     public AsterionMeteorProjectile(Level world, LivingEntity shooter) {
-        super(SNEntities.ASTERION_METEOR_PROJECTILE.get(), shooter, world);
+        super(ModEntities.ASTERION_METEOR_PROJECTILE.get(), shooter, world);
     }
 
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
-        result.getEntity().hurt(damageSources().thrown(this, this.getOwner()), 5.0F);
+
+        Entity target = result.getEntity();
+        Entity owner = this.getOwner();
+        double damage = 5.0D;
+
+        if (owner instanceof LivingEntity livingOwner) {
+            damage += livingOwner.getAttributeValue(ModAttributes.ASTROVOID_DAMAGE.get());
+        }
+
+        target.hurt(damageSources().thrown(this, owner), (float) damage);
+
         this.discard();
     }
 

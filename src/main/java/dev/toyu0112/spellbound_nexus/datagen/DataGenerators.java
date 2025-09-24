@@ -1,9 +1,9 @@
-package dev.toyu0112.stellar_nemesis.datagen;
+package dev.toyu0112.spellbound_nexus.datagen;
 
-import dev.toyu0112.stellar_nemesis.StellarNemesis;
-import dev.toyu0112.stellar_nemesis.datagen.client.SNItemModelProvider;
-import dev.toyu0112.stellar_nemesis.datagen.client.lang.EnUsLanguageProvider;
-import dev.toyu0112.stellar_nemesis.datagen.client.lang.JaJpLanguageProvider;
+import dev.toyu0112.spellbound_nexus.SpellboundNexus;
+import dev.toyu0112.spellbound_nexus.datagen.client.SNItemModelProvider;
+import dev.toyu0112.spellbound_nexus.datagen.client.lang.EnUsLanguageProvider;
+import dev.toyu0112.spellbound_nexus.datagen.client.lang.JaJpLanguageProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -11,7 +11,7 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = StellarNemesis.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = SpellboundNexus.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerators {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {

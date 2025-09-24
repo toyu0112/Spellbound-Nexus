@@ -1,11 +1,11 @@
-package dev.toyu0112.stellar_nemesis;
+package dev.toyu0112.spellbound_nexus;
 
-import dev.toyu0112.stellar_nemesis.attribute.SNAttributes;
-import dev.toyu0112.stellar_nemesis.entity.SNEntities;
-import dev.toyu0112.stellar_nemesis.entity.asterion.AsterionMeteorProjectileModel;
-import dev.toyu0112.stellar_nemesis.entity.asterion.AsterionMeteorProjectileRenderer;
-import dev.toyu0112.stellar_nemesis.item.SNCreativeModeTabs;
-import dev.toyu0112.stellar_nemesis.item.SNItems;
+import dev.toyu0112.spellbound_nexus.client.model.entity.AsterionMeteorProjectileModel;
+import dev.toyu0112.spellbound_nexus.client.render.entity.AsterionMeteorProjectileRenderer;
+import dev.toyu0112.spellbound_nexus.init.ModCreativeModeTabs;
+import dev.toyu0112.spellbound_nexus.init.ModEffects;
+import dev.toyu0112.spellbound_nexus.init.ModEntities;
+import dev.toyu0112.spellbound_nexus.init.ModItems;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -14,16 +14,17 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(StellarNemesis.MOD_ID)
-public class StellarNemesis {
+@Mod(SpellboundNexus.MOD_ID)
+public class SpellboundNexus {
     public static final String MOD_ID = "stellar_nemesis";
 
-    public StellarNemesis() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        SNCreativeModeTabs.register(modEventBus);
-        SNItems.register(modEventBus);
-        SNEntities.register(modEventBus);
-        SNAttributes.register(modEventBus);
+    public SpellboundNexus() {
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModCreativeModeTabs.register(bus);
+        ModItems.register(bus);
+        ModEntities.register(bus);
+        ModEffects.EFFECTS.register(bus);
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -38,7 +39,7 @@ public class StellarNemesis {
 
         @SubscribeEvent
         public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-            event.registerEntityRenderer(SNEntities.ASTERION_METEOR_PROJECTILE.get(), AsterionMeteorProjectileRenderer::new);
+            event.registerEntityRenderer(ModEntities.ASTERION_METEOR_PROJECTILE.get(), AsterionMeteorProjectileRenderer::new);
         }
     }
 }

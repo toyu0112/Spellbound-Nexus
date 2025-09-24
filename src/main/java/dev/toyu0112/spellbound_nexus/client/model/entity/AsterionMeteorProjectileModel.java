@@ -1,11 +1,11 @@
-package dev.toyu0112.stellar_nemesis.entity.asterion;// Made with Blockbench 4.12.6
+package dev.toyu0112.spellbound_nexus.client.model.entity;// Made with Blockbench 4.12.6
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import dev.toyu0112.stellar_nemesis.StellarNemesis;
+import dev.toyu0112.spellbound_nexus.SpellboundNexus;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
 public class AsterionMeteorProjectileModel<T extends Entity> extends EntityModel<T> {
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(StellarNemesis.MOD_ID, "asterion_meteor_projectile_model"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(SpellboundNexus.MOD_ID, "asterion_meteor_projectile_model"), "main");
 	private final ModelPart adventitia;
 	private final ModelPart bone;
 

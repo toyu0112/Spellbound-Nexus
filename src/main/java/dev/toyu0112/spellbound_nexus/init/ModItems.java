@@ -1,15 +1,15 @@
-package dev.toyu0112.stellar_nemesis.item;
+package dev.toyu0112.spellbound_nexus.init;
 
-import dev.toyu0112.stellar_nemesis.StellarNemesis;
+import dev.toyu0112.spellbound_nexus.SpellboundNexus;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class SNItems {
+public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
-            DeferredRegister.create(ForgeRegistries.ITEMS, StellarNemesis.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.ITEMS, SpellboundNexus.MOD_ID);
 
     public static final RegistryObject<Item> COMET_FRAGMENT = ITEMS.register("comet_fragment",
             () -> new Item(new Item.Properties()));
