@@ -1,5 +1,6 @@
 package dev.toyu0112.stellar_nemesis;
 
+import dev.toyu0112.stellar_nemesis.attribute.SNAttributes;
 import dev.toyu0112.stellar_nemesis.entity.SNEntities;
 import dev.toyu0112.stellar_nemesis.entity.asterion.AsterionMeteorProjectileModel;
 import dev.toyu0112.stellar_nemesis.entity.asterion.AsterionMeteorProjectileRenderer;
@@ -22,6 +23,7 @@ public class StellarNemesis {
         SNCreativeModeTabs.register(modEventBus);
         SNItems.register(modEventBus);
         SNEntities.register(modEventBus);
+        SNAttributes.register(modEventBus);
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

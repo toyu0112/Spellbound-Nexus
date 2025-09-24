@@ -5,6 +5,7 @@ package dev.toyu0112.stellar_nemesis.entity.asterion;// Made with Blockbench 4.1
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import dev.toyu0112.stellar_nemesis.StellarNemesis;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -14,8 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
 public class AsterionMeteorProjectileModel<T extends Entity> extends EntityModel<T> {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "asterionmeteorprojectilemodel"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(StellarNemesis.MOD_ID, "asterion_meteor_projectile_model"), "main");
 	private final ModelPart adventitia;
 	private final ModelPart bone;
 
