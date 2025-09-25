@@ -2,10 +2,7 @@ package dev.toyu0112.spellbound_nexus;
 
 import dev.toyu0112.spellbound_nexus.client.model.entity.AsterionMeteorProjectileModel;
 import dev.toyu0112.spellbound_nexus.client.render.entity.AsterionMeteorProjectileRenderer;
-import dev.toyu0112.spellbound_nexus.init.ModCreativeModeTabs;
-import dev.toyu0112.spellbound_nexus.init.ModEffects;
-import dev.toyu0112.spellbound_nexus.init.ModEntities;
-import dev.toyu0112.spellbound_nexus.init.ModItems;
+import dev.toyu0112.spellbound_nexus.init.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -16,11 +13,12 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(SpellboundNexus.MOD_ID)
 public class SpellboundNexus {
-    public static final String MOD_ID = "stellar_nemesis";
+    public static final String MOD_ID = "spellbound_nexus";
 
     public SpellboundNexus() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        ModAttributes.ATTRIBUTES.register(bus);
         ModCreativeModeTabs.register(bus);
         ModItems.register(bus);
         ModEntities.register(bus);
