@@ -20,5 +20,6 @@ public class SpellboundNexus {
         ModEffects.EFFECTS.register(bus);
         SpellRegister.spellRegister();
         ModBlocks.register(bus);
+        ModBlockEntities.register(bus);
     }
 }
