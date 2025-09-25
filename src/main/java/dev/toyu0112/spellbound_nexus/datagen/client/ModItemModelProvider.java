@@ -10,8 +10,8 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 
-public class SNItemModelProvider extends ItemModelProvider {
-    public SNItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
+public class ModItemModelProvider extends ItemModelProvider {
+    public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, SpellboundNexus.MOD_ID, existingFileHelper);
     }
 
@@ -22,7 +22,8 @@ public class SNItemModelProvider extends ItemModelProvider {
 
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(SpellboundNexus.MOD_ID, "item/" + item.getId().getPath()));
+
+                ResourceLocation.tryParse("item/generated")).texture("layer0",
+                ResourceLocation.tryBuild(SpellboundNexus.MOD_ID, "item/" + item.getId().getPath()));
     }
 }
