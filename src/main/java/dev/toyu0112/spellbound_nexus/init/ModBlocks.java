@@ -1,6 +1,7 @@
 package dev.toyu0112.spellbound_nexus.init;
 
 import dev.toyu0112.spellbound_nexus.SpellboundNexus;
+import dev.toyu0112.spellbound_nexus.block.AsterionAltarBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -19,5 +20,5 @@ public class ModBlocks {
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) { RegistryObject<T> toReturn = BLOCKS.register(name, block);registerBlockItem(name, toReturn);return toReturn; }
 
     public static final RegistryObject<Block> ASTERION_ALTAR =
-            registerBlock("asterion_altar", () -> new Block(BlockBehaviour.Properties.of()));
+            registerBlock("asterion_altar", () -> new AsterionAltarBlock(BlockBehaviour.Properties.of()));
 }

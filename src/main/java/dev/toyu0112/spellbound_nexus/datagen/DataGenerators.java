@@ -3,6 +3,7 @@ package dev.toyu0112.spellbound_nexus.datagen;
 import dev.toyu0112.spellbound_nexus.SpellboundNexus;
 import dev.toyu0112.spellbound_nexus.datagen.client.ModBlockStateProvider;
 import dev.toyu0112.spellbound_nexus.datagen.client.ModItemModelProvider;
+import dev.toyu0112.spellbound_nexus.datagen.server.ModBlockTagGenerator;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -25,7 +26,6 @@ public class DataGenerators {
         generator.addProvider(event.includeClient(), new ModItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new ModBlockStateProvider(packOutput, existingFileHelper));
 
-//        ModBlockTagGenerator blockTagGenerator = generator.addProvider(event.includeServer(), new ModBlockTagGenerator(packOutput, lookupProvider, existingFileHelper));
-//        generator.addProvider(event.includeServer(), ModLootTableProvider.create(packOutput));
+        ModBlockTagGenerator blockTagGenerator = generator.addProvider(event.includeServer(), new ModBlockTagGenerator(packOutput, lookupProvider, existingFileHelper));
     }
 }

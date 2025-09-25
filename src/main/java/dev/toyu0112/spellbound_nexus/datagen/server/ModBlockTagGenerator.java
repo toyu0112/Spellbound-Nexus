@@ -1,10 +1,8 @@
 package dev.toyu0112.spellbound_nexus.datagen.server;
 
 import dev.toyu0112.spellbound_nexus.SpellboundNexus;
-import dev.toyu0112.spellbound_nexus.init.ModBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +16,5 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
-        this.tag(BlockTags.NEEDS_IRON_TOOL)
-                .add(ModBlocks.ASTERION_ALTAR.get());
     }
 }
