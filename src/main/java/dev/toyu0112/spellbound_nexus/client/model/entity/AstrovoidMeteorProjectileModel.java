@@ -14,12 +14,12 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
-public class AsterionMeteorProjectileModel<T extends Entity> extends EntityModel<T> {
+public class AstrovoidMeteorProjectileModel<T extends Entity> extends EntityModel<T> {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(SpellboundNexus.MOD_ID, "asterion_meteor_projectile_model"), "main");
 	private final ModelPart adventitia;
 	private final ModelPart bone;
 
-	public AsterionMeteorProjectileModel(ModelPart root) {
+	public AstrovoidMeteorProjectileModel(ModelPart root) {
 		this.adventitia = root.getChild("adventitia");
 		this.bone = this.adventitia.getChild("bone");
 	}

@@ -1,7 +1,7 @@
 package dev.toyu0112.spellbound_nexus.init;
 
 import dev.toyu0112.spellbound_nexus.SpellboundNexus;
-import dev.toyu0112.spellbound_nexus.entity.projectile.AsterionMeteorProjectile;
+import dev.toyu0112.spellbound_nexus.entity.projectile.AstrovoidMeteorProjectile;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -15,10 +15,10 @@ public class ModEntities {
         ENTITIES.register(eventBus);
     }
 
-    public static final RegistryObject<EntityType<AsterionMeteorProjectile>> ASTERION_METEOR_PROJECTILE =
-            ENTITIES.register("asterion_meteor_projectile", () -> EntityType.Builder.<AsterionMeteorProjectile>of(AsterionMeteorProjectile::new, MobCategory.MISC)
+    public static final RegistryObject<EntityType<AstrovoidMeteorProjectile>> ASTROVOID_METEOR_PROJECTILE =
+            ENTITIES.register("astrovoid_meteor_projectile", () -> EntityType.Builder.<AstrovoidMeteorProjectile>of(AstrovoidMeteorProjectile::new, MobCategory.MISC)
                     .sized(0.25F, 0.25F)
                     .clientTrackingRange(4)
                     .updateInterval(10)
-                    .build(SpellboundNexus.MOD_ID + ":asterion_meteor_projectile"));
+                    .build(SpellboundNexus.MOD_ID + ":astrovoid_meteor_projectile"));
 }

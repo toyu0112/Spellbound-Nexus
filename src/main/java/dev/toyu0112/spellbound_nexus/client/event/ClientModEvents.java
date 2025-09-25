@@ -1,8 +1,8 @@
 package dev.toyu0112.spellbound_nexus.client.event;
 
 import dev.toyu0112.spellbound_nexus.SpellboundNexus;
-import dev.toyu0112.spellbound_nexus.client.model.entity.AsterionMeteorProjectileModel;
-import dev.toyu0112.spellbound_nexus.client.render.entity.AsterionMeteorProjectileRenderer;
+import dev.toyu0112.spellbound_nexus.client.model.entity.AstrovoidMeteorProjectileModel;
+import dev.toyu0112.spellbound_nexus.client.render.entity.AstrovoidMeteorProjectileRenderer;
 import dev.toyu0112.spellbound_nexus.init.ModEntities;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -17,10 +17,10 @@ public class ClientModEvents {
     }
     @SubscribeEvent
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(AsterionMeteorProjectileRenderer.LAYER, AsterionMeteorProjectileModel::createBodyLayer);
+        event.registerLayerDefinition(AstrovoidMeteorProjectileRenderer.LAYER, AstrovoidMeteorProjectileModel::createBodyLayer);
     }
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntities.ASTERION_METEOR_PROJECTILE.get(), AsterionMeteorProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.ASTROVOID_METEOR_PROJECTILE.get(), AstrovoidMeteorProjectileRenderer::new);
     }
 }

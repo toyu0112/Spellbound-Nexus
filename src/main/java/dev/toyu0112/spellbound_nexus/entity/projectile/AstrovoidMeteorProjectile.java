@@ -10,13 +10,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 
-public class AsterionMeteorProjectile extends ThrowableProjectile {
-    public AsterionMeteorProjectile(EntityType<? extends ThrowableProjectile> type, Level world) {
+public class AstrovoidMeteorProjectile extends ThrowableProjectile {
+    public AstrovoidMeteorProjectile(EntityType<? extends ThrowableProjectile> type, Level world) {
         super(type, world);
     }
 
-    public AsterionMeteorProjectile(Level world, LivingEntity shooter) {
-        super(ModEntities.ASTERION_METEOR_PROJECTILE.get(), shooter, world);
+    public AstrovoidMeteorProjectile(Level world, LivingEntity shooter) {
+        super(ModEntities.ASTROVOID_METEOR_PROJECTILE.get(), shooter, world);
     }
 
     @Override
