@@ -18,6 +18,8 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.spellbound_nexus_item_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         pOutput.accept(ModItems.COMET_FRAGMENT.get());
+
+                        pOutput.accept(ModBlocks.ASTERION_ALTAR.get());
                     })
                     .build());
 }
