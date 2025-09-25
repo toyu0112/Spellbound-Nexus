@@ -39,8 +39,12 @@ public class AstrovoidMeteorProjectile extends ThrowableProjectile {
     @Override
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
-        this.level().explode(this, this.getX(), this.getY(), this.getZ(), 4.0F, Level.ExplosionInteraction.NONE);
         this.discard();
+    }
+
+    @Override
+    protected boolean canHitEntity(Entity target) {
+        return super.canHitEntity(target) && target != this.getOwner();
     }
 
     @Override
