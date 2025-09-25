@@ -10,18 +10,14 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 public class ModCreativeModeTabs {
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
-            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SpellboundNexus.MOD_ID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SpellboundNexus.MOD_ID);
+    public static void register(IEventBus eventBus) { CREATIVE_MODE_TABS.register(eventBus); }
 
-    public static final RegistryObject<CreativeModeTab> ITEM_TAB = CREATIVE_MODE_TABS.register("spellbound_nexus_item_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.COMET_FRAGMENT.get()))
+    public static final RegistryObject<CreativeModeTab> ITEM_TAB =
+            CREATIVE_MODE_TABS.register("spellbound_nexus_item_tab", () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.COMET_FRAGMENT.get()))
                     .title(Component.translatable("creativetab.spellbound_nexus_item_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         pOutput.accept(ModItems.COMET_FRAGMENT.get());
                     })
                     .build());
-
-    public static void register(IEventBus eventBus) {
-        CREATIVE_MODE_TABS.register(eventBus);
-    }
 }
