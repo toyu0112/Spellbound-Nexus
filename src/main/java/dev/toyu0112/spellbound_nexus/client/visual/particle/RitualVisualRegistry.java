@@ -1,6 +1,5 @@
-package dev.toyu0112.spellbound_nexus.recipe.ritual.visual;
+package dev.toyu0112.spellbound_nexus.client.visual.particle;
 
-import dev.toyu0112.spellbound_nexus.recipe.ritual.RitualVisualTemplate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
