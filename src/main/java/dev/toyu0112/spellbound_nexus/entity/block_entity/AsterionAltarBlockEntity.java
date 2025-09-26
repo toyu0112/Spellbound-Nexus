@@ -66,8 +66,7 @@ public class AsterionAltarBlockEntity extends BlockEntity {
     private static double spokesRotation;
 
     private void spawnRitualParticles() {
-        System.out.println("Ritual tick: " + ritual.ticks() + ", visualId: " + visualId);
-        if (level != null && level.isClientSide && visualId != null && RitualVisualRegistry.contains(visualId)) RitualVisualRegistry.play(visualId, level, getBlockPos(), ritual.ticks());
+        if (level != null && visualId != null && RitualVisualRegistry.contains(visualId)) RitualVisualRegistry.play(visualId, level, getBlockPos(), ritual.ticks());
     }
 
     private static void summonBoss(Level level, BlockPos pos) {

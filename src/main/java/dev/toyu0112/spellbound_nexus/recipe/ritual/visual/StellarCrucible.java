@@ -1,8 +1,8 @@
 package dev.toyu0112.spellbound_nexus.recipe.ritual.visual;
 
+import dev.toyu0112.spellbound_nexus.client.visual.RitualSounds;
 import dev.toyu0112.spellbound_nexus.client.visual.particle.MagicCircle;
 import dev.toyu0112.spellbound_nexus.client.visual.particle.RitualParticleEffects;
-import dev.toyu0112.spellbound_nexus.client.visual.RitualSounds;
 import dev.toyu0112.spellbound_nexus.recipe.ritual.RitualVisualTemplate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -12,6 +12,9 @@ import net.minecraft.world.phys.Vec3;
 public class StellarCrucible implements RitualVisualTemplate {
     @Override
     public void play(Level level, BlockPos pos, int ticks) {
+        RitualSounds.StellarCrucible(level, pos, ticks);
+        if (!level.isClientSide) return;
+
         double x = pos.getX() + 0.5;
         double y = pos.getY();
         double z = pos.getZ() + 0.5;
@@ -19,8 +22,6 @@ public class StellarCrucible implements RitualVisualTemplate {
         double slopeX = 0.5;
         double slopeZ = 0;
         int beamHeight = 25;
-
-        RitualSounds.StellarCrucible(level, pos, ticks);
 
         if (isInPhase(ticks, 0, 400))
             playPhase1(level, x, y, z, ticks, up);
