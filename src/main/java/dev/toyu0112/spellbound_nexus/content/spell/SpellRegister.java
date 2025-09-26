@@ -1,6 +1,6 @@
-package dev.toyu0112.spellbound_nexus.spell;
+package dev.toyu0112.spellbound_nexus.content.spell;
 
-import dev.toyu0112.spellbound_nexus.spell.astrovoid.AstrovoidMeteorSpell;
+import dev.toyu0112.spellbound_nexus.content.spell.astrovoid.AstrovoidMeteorSpell;
 
 import java.util.List;
 

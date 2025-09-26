@@ -1,4 +1,4 @@
-package dev.toyu0112.spellbound_nexus.spell;
+package dev.toyu0112.spellbound_nexus.content.spell;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;

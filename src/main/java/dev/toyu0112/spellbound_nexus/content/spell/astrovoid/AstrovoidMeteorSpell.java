@@ -1,8 +1,8 @@
-package dev.toyu0112.spellbound_nexus.spell.astrovoid;
+package dev.toyu0112.spellbound_nexus.content.spell.astrovoid;
 
 import dev.toyu0112.spellbound_nexus.entity.projectile.AstrovoidMeteorProjectile;
-import dev.toyu0112.spellbound_nexus.spell.AbstractSpell;
-import dev.toyu0112.spellbound_nexus.spell.SpellTarget;
+import dev.toyu0112.spellbound_nexus.content.spell.AbstractSpell;
+import dev.toyu0112.spellbound_nexus.content.spell.SpellTarget;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,7 +11,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Random;
 
-import static dev.toyu0112.spellbound_nexus.spell.SpellManager.safeGetPosition;
+import static dev.toyu0112.spellbound_nexus.content.spell.SpellManager.safeGetPosition;
 
 public class AstrovoidMeteorSpell extends AbstractSpell {
     public AstrovoidMeteorSpell() {
