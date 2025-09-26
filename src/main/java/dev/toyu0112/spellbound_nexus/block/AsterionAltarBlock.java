@@ -34,57 +34,40 @@ public class AsterionAltarBlock extends Block implements EntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        ItemStack held = player.getItemInHand(hand);
+        if (level.isClientSide) return InteractionResult.SUCCESS;
+
         BlockEntity be = level.getBlockEntity(pos);
         if (!(be instanceof AsterionAltarBlockEntity altar)) return InteractionResult.PASS;
 
+        ItemStack held = player.getItemInHand(hand);
         ItemStack altarItem = altar.getSpinningItem();
 
+        if (!altarItem.isEmpty() && held.isEmpty()) {
+            player.setItemInHand(hand, altarItem);
+            altar.setSpinningItem(ItemStack.EMPTY);
+            return InteractionResult.SUCCESS;
+        }
+
+        if (!altarItem.isEmpty() && ItemStack.isSameItemSameTags(held, altarItem)) {
+            return InteractionResult.SUCCESS;
+        }
+
         if (!altarItem.isEmpty()) {
-            if (held.isEmpty()) {
-                if (!level.isClientSide) {
-                    player.setItemInHand(hand, altarItem);
-                }
-                altar.setSpinningItem(ItemStack.EMPTY);
-                return InteractionResult.sidedSuccess(level.isClientSide);
-            }
-
-            if (ItemStack.isSameItemSameTags(held, altarItem)) {
-                return InteractionResult.sidedSuccess(level.isClientSide);
-            }
-
-            if (!level.isClientSide) {
-                ItemStack copy = held.copyWithCount(1);
-                held.shrink(1);
-                altar.setSpinningItem(copy);
-                player.addItem(altarItem);
-
-                if (altar.getSpinningItem().is(ModItems.COMET_FRAGMENT.get())) {
-                    altar.startRitual();
-                }
-            } else {
-                altar.setSpinningItem(held.copyWithCount(1));
-            }
-
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            ItemStack copy = held.copyWithCount(1);
+            held.shrink(1);
+            altar.setSpinningItem(copy);
+            player.addItem(altarItem);
+            if (copy.is(ModItems.COMET_FRAGMENT.get())) altar.startRitual();
+            return InteractionResult.SUCCESS;
         }
 
         if (!held.isEmpty()) {
-            if (!level.isClientSide) {
-                ItemStack copy = held.copyWithCount(1);
-                altar.setSpinningItem(copy);
-                if (copy.is(ModItems.COMET_FRAGMENT.get())) {
-                    altar.startRitual();
-                }
-            } else {
-                altar.setSpinningItem(held.copyWithCount(1));
-                if (held.is(ModItems.COMET_FRAGMENT.get())) {
-                    altar.startRitual();
-                }
-            }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            ItemStack copy = held.copyWithCount(1);
+            held.shrink(1);
+            altar.setSpinningItem(copy);
+            if (copy.is(ModItems.COMET_FRAGMENT.get())) altar.startRitual();
+            return InteractionResult.SUCCESS;
         }
-
         return InteractionResult.PASS;
     }
 
@@ -98,28 +81,25 @@ public class AsterionAltarBlock extends Block implements EntityBlock {
         return RenderShape.MODEL;
     }
 
+    private static final VoxelShape SHAPE = Shapes.box(0.0, 0.0, 0.0, 1.0, 0.75, 1.0);
+
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return Shapes.box(0.0, 0.0, 0.0, 1.0, 0.75, 1.0); // 中央に小さめの台座
+        return SHAPE;
     }
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return getShape(state, level, pos, context);
+        return SHAPE;
     }
 
     @Override
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         List<ItemStack> drops = super.getDrops(state, builder);
-
         BlockEntity be = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
-        if (be instanceof AsterionAltarBlockEntity altar) {
-            ItemStack offering = altar.getSpinningItem();
-            if (!offering.isEmpty()) {
-                drops.add(offering);
-            }
+        if (be instanceof AsterionAltarBlockEntity altar && !altar.getSpinningItem().isEmpty()) {
+            drops.add(altar.getSpinningItem());
         }
-
         return drops;
     }
 
@@ -128,14 +108,14 @@ public class AsterionAltarBlock extends Block implements EntityBlock {
         if (type != ModBlockEntities.ASTERION_ALTAR.get()) return null;
 
         return level.isClientSide
-                ? (lvl, pos, st, be) -> {
+                ? createTicker(AsterionAltarBlockEntity::clientTick)
+                : createTicker(AsterionAltarBlockEntity::serverTick);
+    }
+
+    private <T extends BlockEntity> BlockEntityTicker<T> createTicker(BlockEntityTicker<? super AsterionAltarBlockEntity> ticker) {
+        return (lvl, pos, st, be) -> {
             if (be instanceof AsterionAltarBlockEntity altar) {
-                AsterionAltarBlockEntity.clientTick(lvl, pos, st, altar);
-            }
-        }
-                : (lvl, pos, st, be) -> {
-            if (be instanceof AsterionAltarBlockEntity altar) {
-                AsterionAltarBlockEntity.serverTick(lvl, pos, st, altar);
+                ticker.tick(lvl, pos, st, altar);
             }
         };
     }
