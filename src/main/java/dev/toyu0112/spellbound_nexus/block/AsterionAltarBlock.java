@@ -1,6 +1,8 @@
 package dev.toyu0112.spellbound_nexus.block;
 
 import dev.toyu0112.spellbound_nexus.entity.block_entity.AsterionAltarBlockEntity;
+import dev.toyu0112.spellbound_nexus.init.ModBlockEntities;
+import dev.toyu0112.spellbound_nexus.init.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -12,6 +14,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -23,6 +27,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.List;
 
 public class AsterionAltarBlock extends Block implements EntityBlock {
+
     public AsterionAltarBlock(Properties pProperties) {
         super(pProperties);
     }
@@ -31,7 +36,6 @@ public class AsterionAltarBlock extends Block implements EntityBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         ItemStack held = player.getItemInHand(hand);
         BlockEntity be = level.getBlockEntity(pos);
-
         if (!(be instanceof AsterionAltarBlockEntity altar)) return InteractionResult.PASS;
 
         ItemStack altarItem = altar.getSpinningItem();
@@ -54,6 +58,10 @@ public class AsterionAltarBlock extends Block implements EntityBlock {
                 held.shrink(1);
                 altar.setSpinningItem(copy);
                 player.addItem(altarItem);
+
+                if (altar.getSpinningItem().is(ModItems.COMET_FRAGMENT.get())) {
+                    altar.startRitual();
+                }
             } else {
                 altar.setSpinningItem(held.copyWithCount(1));
             }
@@ -64,10 +72,15 @@ public class AsterionAltarBlock extends Block implements EntityBlock {
         if (!held.isEmpty()) {
             if (!level.isClientSide) {
                 ItemStack copy = held.copyWithCount(1);
-                held.shrink(1);
                 altar.setSpinningItem(copy);
+                if (copy.is(ModItems.COMET_FRAGMENT.get())) {
+                    altar.startRitual();
+                }
             } else {
                 altar.setSpinningItem(held.copyWithCount(1));
+                if (held.is(ModItems.COMET_FRAGMENT.get())) {
+                    altar.startRitual();
+                }
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
@@ -108,5 +121,22 @@ public class AsterionAltarBlock extends Block implements EntityBlock {
         }
 
         return drops;
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        if (type != ModBlockEntities.ASTERION_ALTAR.get()) return null;
+
+        return level.isClientSide
+                ? (lvl, pos, st, be) -> {
+            if (be instanceof AsterionAltarBlockEntity altar) {
+                AsterionAltarBlockEntity.clientTick(lvl, pos, st, altar);
+            }
+        }
+                : (lvl, pos, st, be) -> {
+            if (be instanceof AsterionAltarBlockEntity altar) {
+                AsterionAltarBlockEntity.serverTick(lvl, pos, st, altar);
+            }
+        };
     }
 }
