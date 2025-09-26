@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 public class AsterionAltarBlockEntity extends BlockEntity {
     private ItemStack spinningItem = ItemStack.EMPTY;
@@ -63,46 +64,63 @@ public class AsterionAltarBlockEntity extends BlockEntity {
             summonBoss(level, pos);
         }
     }
+    private static double starRotation;
+    private static double spokesRotation;
 
     private static void spawnRitualParticles(Level level, BlockPos pos, int ticks) {
         double centerX = pos.getX() + 0.5;
         double centerY = pos.getY();
         double centerZ = pos.getZ() + 0.5;
+        double slopeX = 0.5;
+        double slopeZ = 0;
+        int beamHeight = 25;
         boolean isMagicCirclePhase = ticks >= 500 && ticks < 600;
 
         playRitualSounds(level, pos, ticks);
 
         if (!isMagicCirclePhase) {
-            int count = 20;
-            double radius = 7.5;
+            double radius = 10.0;
+            starRotation += 0.3;
+            spokesRotation += 0.5;
 
             // Phase 1
-            int trailCount = Math.min(ticks / 2, count);
-            RitualEffects.drawCircle(level, centerX, centerY, centerZ, radius, trailCount, ParticleTypes.WITCH, 0);
+            int trailCount = Math.min(ticks / 2, 100);
+            RitualEffects.drawCircle(level, centerX, centerY, centerZ, radius, trailCount, ParticleTypes.GLOW, new Vec3(0, 1, 0),ticks * 0.05);
+            RitualEffects.drawCircle(level, centerX, centerY, centerZ, radius - 2, trailCount + 100, ParticleTypes.GLOW, new Vec3(0, 1, 0),ticks * 0.05);
+            RitualEffects.drawStar(level, centerX, centerY, centerZ, radius - 2, 20, ParticleTypes.SCULK_SOUL, new Vec3(0, 1, 0), starRotation);
+            RitualEffects.drawSpokes(level, centerX, centerY, centerZ, radius, radius - 2, 20, 10, ParticleTypes.GLOW, new Vec3(0, 1, 0), spokesRotation);
 
             // Phase 2
             if (ticks >= 200) {
-                for (int i = 0; i < count; i++) {
-                    double angle = (2 * Math.PI / count) * i;
+                for (int i = 0; i < 20; i++) {
+                    double angle = (2 * Math.PI / 20) * i;
                     double ex = centerX + radius * Math.cos(angle);
                     double ez = centerZ + radius * Math.sin(angle);
-                    RitualEffects.drawArc(level, ex, centerY, ez, centerX, centerY + 2.0, centerZ, centerY + 1.5, 10, ParticleTypes.SOUL_FIRE_FLAME);
+                    RitualEffects.drawArc(level, ex, centerY, ez, centerX, centerY + 2.0, centerZ, centerY + 2.5, 10, ParticleTypes.SOUL_FIRE_FLAME);
                 }
             }
         }
 
         // Phase 3
-        if (ticks >= 400 && ticks < 500) {
-            RitualEffects.drawBeam(level, centerX, centerY + 2.0, centerZ, 25, 0.05, 0.03, ParticleTypes.END_ROD);
+        if (ticks >= 400 && ticks < 600) {
+            RitualEffects.drawBeam(level, centerX, centerY + 2.0, centerZ, beamHeight, slopeX, slopeZ, ParticleTypes.END_ROD);
         }
 
-        // Phase5
+        // Phase 4
         if (isMagicCirclePhase) {
-            double ringY = centerY + 27.0;
-            RitualEffects.drawCircle(level, centerX, ringY, centerZ, 20.0, 100, ParticleTypes.GLOW, ticks * 0.05);
-            RitualEffects.drawCircle(level, centerX, ringY, centerZ, 17.0, 100, ParticleTypes.GLOW, ticks * 0.05);
-            RitualEffects.drawStar(level, centerX, ringY, centerZ, 17.0, 20, ParticleTypes.SOUL_FIRE_FLAME);
-            RitualEffects.drawSpokes(level, centerX, ringY, centerZ, 17.0, 20, 30, 10, ParticleTypes.GLOW);
+            double ringY = centerY + beamHeight + 2;
+            double ringX = centerX + slopeX * beamHeight;
+            double ringZ = centerZ + slopeZ * beamHeight;
+
+            starRotation += 0.3;
+            spokesRotation += 0.5;
+
+            Vec3 laserDirection = new Vec3(slopeX, 1.0, slopeZ).normalize();
+
+            RitualEffects.drawCircle(level, ringX, ringY, ringZ, 20.0, 100, ParticleTypes.GLOW, laserDirection,ticks * 0.05);
+            RitualEffects.drawCircle(level, ringX, ringY, ringZ, 17.0, 100, ParticleTypes.GLOW, laserDirection, ticks * 0.05);
+            RitualEffects.drawStar(level, ringX, ringY, ringZ, 17.0, 20, ParticleTypes.SOUL_FIRE_FLAME, laserDirection, starRotation);
+            RitualEffects.drawSpokes(level, ringX, ringY, ringZ, 17.0, 20, 30, 10, ParticleTypes.GLOW, laserDirection, spokesRotation);
         }
 
         // Finish
