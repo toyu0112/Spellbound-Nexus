@@ -4,6 +4,7 @@ import dev.toyu0112.spellbound_nexus.entity.block_entity.AsterionAltarBlockEntit
 import dev.toyu0112.spellbound_nexus.init.ModBlockEntities;
 import dev.toyu0112.spellbound_nexus.init.ModItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -57,7 +58,7 @@ public class AsterionAltarBlock extends Block implements EntityBlock {
             held.shrink(1);
             altar.setSpinningItem(copy);
             player.addItem(altarItem);
-            if (copy.is(ModItems.COMET_FRAGMENT.get())) altar.startRitual();
+            if (copy.is(ModItems.COMET_FRAGMENT.get())) altar.startRitual(new ResourceLocation("spellbound_nexus", "stellar_crucible"));
             return InteractionResult.SUCCESS;
         }
 
@@ -65,7 +66,7 @@ public class AsterionAltarBlock extends Block implements EntityBlock {
             ItemStack copy = held.copyWithCount(1);
             held.shrink(1);
             altar.setSpinningItem(copy);
-            if (copy.is(ModItems.COMET_FRAGMENT.get())) altar.startRitual();
+            if (copy.is(ModItems.COMET_FRAGMENT.get())) altar.startRitual(new ResourceLocation("spellbound_nexus", "stellar_crucible"));
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;

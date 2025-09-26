@@ -1,10 +1,10 @@
-package dev.toyu0112.spellbound_nexus.client.visual;
+package dev.toyu0112.spellbound_nexus.client.visual.particle;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public class RitualEffects {
+public class RitualParticleEffects {
     public static void drawCircle(Level level, double centerX, double centerY, double centerZ, double radius, int density, ParticleOptions particle, Vec3 normal, double rotation) {
         Vec3 n = normal.normalize();
         Vec3 tangent1 = n.cross(new Vec3(0, 1, 0)).normalize();
