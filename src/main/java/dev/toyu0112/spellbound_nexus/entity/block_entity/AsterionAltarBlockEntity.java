@@ -1,7 +1,7 @@
 package dev.toyu0112.spellbound_nexus.entity.block_entity;
 
 import dev.toyu0112.spellbound_nexus.init.ModBlockEntities;
-import dev.toyu0112.spellbound_nexus.recipe.ritual.visual.RitualVisualRegistry;
+import dev.toyu0112.spellbound_nexus.client.visual.particle.RitualVisualRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -23,12 +23,19 @@ public class AsterionAltarBlockEntity extends BlockEntity {
         super(ModBlockEntities.ASTERION_ALTAR.get(), pPos, pBlockState);
     }
 
+    private void ritualFinished() {
+        summonBoss(level, getBlockPos());
+    }
+
     public void setSpinningItem(ItemStack stack) {
         this.spinningItem = stack;
         setChanged();
 
         if (stack.isEmpty()) stopRitual();
+        notifyBlockUpdate();
+    }
 
+    public void notifyBlockUpdate() {
         if (level != null && !level.isClientSide) {
             level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
         }
@@ -44,29 +51,25 @@ public class AsterionAltarBlockEntity extends BlockEntity {
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, AsterionAltarBlockEntity altar) {
         if (!altar.ritual.active()) return;
-
-        if (altar.getSpinningItem().isEmpty()) {
+        if (altar.spinningItem.isEmpty()) {
             altar.stopRitual();
             return;
         }
 
         altar.ritual = altar.ritual.ticked();
 
-        if (altar.ritual.ticks() % 5 == 0) {
-            altar.spawnRitualParticles();
-        }
-
-        if (altar.ritual.ticks() >= 600) {
+        if (altar.ritual.shouldSpawnParticles()) altar.spawnRitualParticles();
+        if (altar.ritual.finished()) {
             altar.stopRitual();
             altar.setSpinningItem(ItemStack.EMPTY);
-            summonBoss(level, pos);
+            altar.ritualFinished();
         }
     }
-    private static double starRotation;
-    private static double spokesRotation;
 
     private void spawnRitualParticles() {
-        if (level != null && visualId != null && RitualVisualRegistry.contains(visualId)) RitualVisualRegistry.play(visualId, level, getBlockPos(), ritual.ticks());
+        if (level == null || visualId == null) return;
+        if (!RitualVisualRegistry.contains(visualId)) return;
+        RitualVisualRegistry.play(visualId, level, getBlockPos(), ritual.ticks());
     }
 
     private static void summonBoss(Level level, BlockPos pos) {
@@ -77,16 +80,19 @@ public class AsterionAltarBlockEntity extends BlockEntity {
 
     public record RitualState(boolean active, int ticks) {
         public RitualState ticked() {
-            return new RitualState(active, ticks + 1);
+            return active ? new RitualState(true, ticks + 1) : this;
         }
 
-        public static RitualState inactive() {
-            return new RitualState(false, 0);
+        public boolean shouldSpawnParticles() {
+            return active && ticks % 5 == 0;
         }
 
-        public static RitualState started() {
-            return new RitualState(true, 0);
+        public boolean finished() {
+            return active && ticks >= 600;
         }
+
+        public static RitualState inactive() { return new RitualState(false, 0); }
+        public static RitualState started() { return new RitualState(true, 0); }
     }
 
     public void startRitual(ResourceLocation visualId) {

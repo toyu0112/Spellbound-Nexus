@@ -1,7 +1,7 @@
 package dev.toyu0112.spellbound_nexus;
 
 import dev.toyu0112.spellbound_nexus.init.*;
-import dev.toyu0112.spellbound_nexus.spell.SpellRegister;
+import dev.toyu0112.spellbound_nexus.content.spell.SpellRegister;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
