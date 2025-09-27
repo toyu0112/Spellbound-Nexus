@@ -1,4 +1,4 @@
-package dev.toyu0112.spellbound_nexus.client.visual;
+package dev.toyu0112.spellbound_nexus.content.ritual.sound;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;

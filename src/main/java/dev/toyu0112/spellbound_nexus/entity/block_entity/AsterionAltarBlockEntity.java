@@ -1,18 +1,19 @@
 package dev.toyu0112.spellbound_nexus.entity.block_entity;
 
+import dev.toyu0112.spellbound_nexus.content.ritual.sound.RitualSounds;
+import dev.toyu0112.spellbound_nexus.content.ritual.visual.controller.RitualVisualController;
+import dev.toyu0112.spellbound_nexus.content.ritual.visual.registry.RitualVisualRegistry;
 import dev.toyu0112.spellbound_nexus.init.ModBlockEntities;
-import dev.toyu0112.spellbound_nexus.client.visual.particle.RitualVisualRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 public class AsterionAltarBlockEntity extends BlockEntity {
     private ItemStack spinningItem = ItemStack.EMPTY;
@@ -21,10 +22,6 @@ public class AsterionAltarBlockEntity extends BlockEntity {
 
     public AsterionAltarBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.ASTERION_ALTAR.get(), pPos, pBlockState);
-    }
-
-    private void ritualFinished() {
-        summonBoss(level, getBlockPos());
     }
 
     public void setSpinningItem(ItemStack stack) {
@@ -44,8 +41,17 @@ public class AsterionAltarBlockEntity extends BlockEntity {
     public static void clientTick(Level level, BlockPos pos, BlockState state, AsterionAltarBlockEntity altar) {
         if (!altar.ritual.active()) return;
         altar.ritual = altar.ritual.ticked();
+        RitualSounds.StellarCrucible(level, pos, altar.ritual.ticks());
         if (altar.ritual.ticks() % 5 == 0) {
             altar.spawnRitualParticles();
+        }
+
+        if (altar.ritual.finished()) {
+            Vec3 center = new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+            RitualVisualController controller = RitualVisualRegistry.getController(altar.visualId, center);
+            if (controller != null) {
+                controller.runEndActions(level);
+            }
         }
     }
 
@@ -60,9 +66,14 @@ public class AsterionAltarBlockEntity extends BlockEntity {
 
         if (altar.ritual.shouldSpawnParticles()) altar.spawnRitualParticles();
         if (altar.ritual.finished()) {
+            Vec3 center = new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+            RitualVisualController controller = RitualVisualRegistry.getController(altar.visualId, center);
+            if (controller != null) {
+                controller.runEndActions(level);
+            }
+
             altar.stopRitual();
             altar.setSpinningItem(ItemStack.EMPTY);
-            altar.ritualFinished();
         }
     }
 
@@ -70,12 +81,6 @@ public class AsterionAltarBlockEntity extends BlockEntity {
         if (level == null || visualId == null) return;
         if (!RitualVisualRegistry.contains(visualId)) return;
         RitualVisualRegistry.play(visualId, level, getBlockPos(), ritual.ticks());
-    }
-
-    private static void summonBoss(Level level, BlockPos pos) {
-        Zombie zombie = new Zombie(EntityType.ZOMBIE, level);
-        zombie.moveTo(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 0, 0);
-        level.addFreshEntity(zombie);
     }
 
     public record RitualState(boolean active, int ticks) {
@@ -88,7 +93,7 @@ public class AsterionAltarBlockEntity extends BlockEntity {
         }
 
         public boolean finished() {
-            return active && ticks >= 600;
+            return active && ticks >= 700;
         }
 
         public static RitualState inactive() { return new RitualState(false, 0); }

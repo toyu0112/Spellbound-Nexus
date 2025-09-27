@@ -1,9 +1,9 @@
 package dev.toyu0112.spellbound_nexus.init;
 
 import dev.toyu0112.spellbound_nexus.SpellboundNexus;
-import dev.toyu0112.spellbound_nexus.client.visual.particle.RitualVisualTemplate;
-import dev.toyu0112.spellbound_nexus.client.visual.particle.RitualVisualRegistry;
-import dev.toyu0112.spellbound_nexus.client.visual.particle.StellarCrucible;
+import dev.toyu0112.spellbound_nexus.content.ritual.visual.template.RitualVisualTemplate;
+import dev.toyu0112.spellbound_nexus.content.ritual.visual.registry.RitualVisualRegistry;
+import dev.toyu0112.spellbound_nexus.content.ritual.particle.visual.StellarCrucible;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
